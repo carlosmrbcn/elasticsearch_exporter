@@ -223,9 +223,9 @@ func (c *ClusterHealth) Describe(ch chan<- *prometheus.Desc) {
 func (c *ClusterHealth) fetchAndDecodeClusterHealth() (clusterHealthResponse, error) {
 	var chr clusterHealthResponse
 
-	u := *c.url
-	u.Path = "/_cluster/health"
-	res, err := c.client.Get(u.String())
+    u := *c.url
+    //u.Path = "/_cluster/health"
+    res, err := c.client.Get(u.String() + "/_cluster/health")
 	if err != nil {
 		return chr, fmt.Errorf("failed to get cluster health from %s://%s:%s/%s: %s",
 			u.Scheme, u.Hostname(), u.Port(), u.Path, err)
