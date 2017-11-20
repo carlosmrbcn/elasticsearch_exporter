@@ -1117,14 +1117,15 @@ func (c *Nodes) Describe(ch chan<- *prometheus.Desc) {
 
 func (c *Nodes) fetchAndDecodeNodeStats() (nodeStatsResponse, error) {
 	var nsr nodeStatsResponse
+    var pathnode string
 
 	u := *c.url
-	u.Path = "/_nodes/_local/stats"
+	pathnode = "/_nodes/_local/stats"
 	if c.all {
-		u.Path = "/_nodes/stats"
+		pathnode = "/_nodes/stats"
 	}
 
-	res, err := c.client.Get(u.String())
+	res, err := c.client.Get(u.String() + pathnode)
 	if err != nil {
 		return nsr, fmt.Errorf("failed to get cluster health from %s://%s:%s/%s: %s",
 			u.Scheme, u.Hostname(), u.Port(), u.Path, err)
